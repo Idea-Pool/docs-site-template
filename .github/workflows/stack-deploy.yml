@@ -1,5 +1,6 @@
 name: Stack Deployment
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -23,7 +24,19 @@ jobs:
           role-to-assume: arn:aws:iam::438817368704:role/IdeaPoolGitHubOIDC
           role-session-name: docssitetemplatesession
           aws-region: ${{ env.AWS_REGION }}
-      # Upload a file to AWS s3
-      - name: List S3
-        run: |
-          aws s3 ls
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.0.0
+        with:
+          node-version: 16
+      - name: Installing dependencies
+        working-directory: cdk
+        run: npm install
+      - name: Deployment
+        working-directory: cdk
+        run: npm run deploy -- --outputs-file ./cdk-outputs.json
+      - name: Archive stack artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cdk-output
+          path: |
+            cdk-outputs.json
