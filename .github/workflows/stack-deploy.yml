@@ -39,4 +39,4 @@ jobs:
         with:
           name: cdk-output
           path: |
-            cdk-outputs.json
+            cdk/cdk-outputs.json
