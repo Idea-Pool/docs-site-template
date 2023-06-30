@@ -28,4 +28,4 @@ jobs:
         run: npm install
       - name: Destroying
         working-directory: cdk
-        run: npm run destroy
+        run: npm run destroy -- --force
