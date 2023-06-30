@@ -34,6 +34,13 @@ jobs:
       - name: Deployment
         working-directory: cdk
         run: npm run deploy -- --outputs-file ./cdk-outputs.json
+      - name: CDK Output
+        run: | 
+          CDK_OUTPUT=$(cat cdk/cdk-outputs.json)
+          echo "CDK Output:" >> $GITHUB_STEP_SUMMARY
+          echo "```json">> $GITHUB_STEP_SUMMARY
+          echo "$CDK_OUTPUT" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
       - name: Archive stack artifact
         uses: actions/upload-artifact@v3
         with:
