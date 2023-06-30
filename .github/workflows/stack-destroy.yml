@@ -26,6 +26,6 @@ jobs:
       - name: Installing dependencies
         working-directory: cdk
         run: npm install
-      - name: Deployment
+      - name: Destroying
         working-directory: cdk
         run: npm run destroy
