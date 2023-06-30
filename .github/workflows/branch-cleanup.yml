@@ -1,0 +1,42 @@
+name: Branch Cleanup
+on:
+  delete:
+    branches:
+      # all branches created from issue
+      - "[0-9]+-**"
+jobs:
+  cleanup:
+    name: Clean up S3
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
+      AWS_REGION: "eu-central-1"
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: | 
+          BRANCH=$(cat ${{ github.event_path }} | jq --raw-output '.ref')
+          echo "branch=${BRANCH#refs/heads/}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: Remove from S3
+        uses: vitorsgomes/s3-rm-action@master
+        with:
+          args: --recursive
+        env:
+          AWS_S3_BUCKET: "ideapool-aws-testing"
+          PATH_TO_DELETE: ${{ steps.extract_branch.outputs.branch }}
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: "E2GO9UW2P84E3I"
+          PATHS: "/${{ steps.extract_branch.outputs.branch }}/*"
+      - uses: strumwolf/delete-deployment-environment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: aws-development
+          ref: ${{ steps.extract_branch.outputs.branch }}
+          onlyDeactivateDeployments: true
+      - name: Output
+        run: | 
+          echo "✔	Branch is successfully cleaned from AWS" >> $GITHUB_STEP_SUMMARY

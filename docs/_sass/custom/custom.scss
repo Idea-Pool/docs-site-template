@@ -1,0 +1,41 @@
+.footnotes {
+    border-top: 1px solid $border-color;
+    font-size: 0.8em;
+}
+
+figure {
+    text-align: center;
+    margin: 1.5em auto;
+}
+
+figcaption {
+    font-size: 0.8em;
+    font-style: italic;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.js-toggle-dark-mode {
+    padding: 0.3em 0.5em;
+    margin: 0.8em auto;
+
+    &, &:focus, &:hover, &:focus:hover {
+        box-shadow: none;
+    }
+}
+
+.aws-service {
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+
+    img {
+        max-width: initial;
+        margin-top: 0.3em;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 2em;
+    }
+}
