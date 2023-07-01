@@ -65,6 +65,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy
         run: |
+          aws configure list-profiles
           aws sts get-caller-identity
           aws s3 ls
           aws s3 sync ./_site s3://${{ secrets.AWS_BUCKET_NAME }}/${{ env.BRANCH }} --no-progress --follow-symlinks --delete
