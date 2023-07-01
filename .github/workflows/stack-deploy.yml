@@ -42,13 +42,13 @@ jobs:
           echo '```json' >> $GITHUB_STEP_SUMMARY
           echo "$CDK_OUTPUT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "cdk_output=$CDK_OUTPUT" >> $GITHUB_OUTPUT
+          echo "bucketName=${cat cdk-output.json | grep BucketName | cut -d '"' -f 4}" >> $GITHUB_OUTPUT
       - name: Deploy dynamic secrets
         uses: dacbd/gha-secrets@v1
         with:
           token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: CDK_OUTPUT
-          value: ${{ steps.cdk_output.outputs.cdk_output }}
+          name: AWS_BUCKET_NAME
+          value: ${{ steps.cdk_output.outputs.bucketName }}
           location: repo
       - name: Archive stack artifact
         uses: actions/upload-artifact@v3
