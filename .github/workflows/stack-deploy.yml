@@ -42,7 +42,7 @@ jobs:
           echo '```json' >> $GITHUB_STEP_SUMMARY
           echo "$CDK_OUTPUT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "bucketName=${cat cdk-output.json | grep BucketName | cut -d '"' -f 4}" >> $GITHUB_OUTPUT
+          echo "bucketName=$(cat cdk-output.json | grep BucketName | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
       - name: Deploy dynamic secrets
         uses: dacbd/gha-secrets@v1
         with:
