@@ -33,7 +33,7 @@ jobs:
         run: npm install
       - name: Deployment
         working-directory: cdk
-        run: npm run deploy -- --outputs-file ./cdk-outputs.json
+        run: npm run deploy -- --require-approval never --outputs-file ./cdk-outputs.json
       - name: CDK Output
         id: cdk_output
         run: | 
