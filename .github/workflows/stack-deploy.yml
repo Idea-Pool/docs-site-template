@@ -44,12 +44,12 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "cdk_output=$CDK_OUTPUT" >> $GITHUB_OUTPUT
       - name: Deploy dynamic secrets
-        uses: kornicameister/gh-secrets-action@master
+        uses: dacbd/gha-secrets@v1
         with:
-          repository: idea-pool/docs-site-template
           token: ${{ secrets.GH_SECRETS_TOKEN }}
-          secrets: |
-            CDK_OUTPUT: ${{ steps.cdk_output.outputs.cdk_output }}
+          name: CDK_OUTPUT
+          value: ${{ steps.cdk_output.outputs.cdk_output }}
+          location: repo
       - name: Archive stack artifact
         uses: actions/upload-artifact@v3
         with:
