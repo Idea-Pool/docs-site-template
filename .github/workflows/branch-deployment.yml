@@ -65,6 +65,8 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy
         run: |
+          aws sts get-caller-identity
+          aws s3 ls
           aws s3 sync ./_site s3://${{ secrets.AWS_BUCKET_NAME }}/${{ env.BRANCH }} --no-progress --follow-symlinks --delete
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
