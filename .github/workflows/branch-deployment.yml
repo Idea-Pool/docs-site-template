@@ -64,13 +64,8 @@ jobs:
           role-session-name: docs-site-template-branch-deploy
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
-          SOURCE_DIR: "_site"
-          DEST_DIR: ${{ env.BRANCH }}
+        run: |
+          aws s3 sync _site s3://${{ secrets.AWS_BUCKET_NAME }}/${{ env.BRANCH }} --no-progress --follow-symlinks --delete
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
