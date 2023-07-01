@@ -38,7 +38,7 @@ export class DocsSiteTemplate extends cdk.Stack {
         bucket.bucketArn,
         bucket.arnForObjects('*'),
       ],
-      principals: [new iam.ArnPrincipal(props.cliRoleArn)]
+      principals: [new iam.AccountPrincipal(cdk.Stack.of(this).account)]
     }))
 
     const cfFunction = new cloudfront.Function(this, 'Function', {
