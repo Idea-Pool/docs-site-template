@@ -35,12 +35,21 @@ jobs:
         working-directory: cdk
         run: npm run deploy -- --outputs-file ./cdk-outputs.json
       - name: CDK Output
+        id: cdk_output
         run: | 
           CDK_OUTPUT=$(cat cdk/cdk-outputs.json)
           echo "CDK Output:" >> $GITHUB_STEP_SUMMARY
           echo '```json' >> $GITHUB_STEP_SUMMARY
           echo "$CDK_OUTPUT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "cdk_output=$CDK_OUTPUT" >> $GITHUB_OUTPUT
+      - name: Deploy dynamic secrets
+        uses: kornicameister/gh-secrets-action@master
+        with:
+          repository: idea-pool/docs-site-template
+          token: ${{ secrets.GH_SECRETS_TOKEN }}
+          secrets: |
+            CDK_OUTPUT: ${{ steps.cdk_output.outputs.cdk_output }}
       - name: Archive stack artifact
         uses: actions/upload-artifact@v3
         with:
