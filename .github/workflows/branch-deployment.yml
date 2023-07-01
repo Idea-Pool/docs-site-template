@@ -60,25 +60,25 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::438817368704:role/IdeaPoolGitHubOIDC
-          role-session-name: docssitetemplatesession
+          role-to-assume: ${{ secrets.AWS_CDK_ROLE_ARN }}
+          role-session-name: docs-site-template-branch-deploy
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: "ideapool-aws-testing"
+          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
           SOURCE_DIR: "_site"
           DEST_DIR: ${{ env.BRANCH }}
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{ secrets.CF_DISTRIBUTION_ID }}
+          DISTRIBUTION: ${{ secrets.AWS_DISTRIBUTION_ID }}
           PATHS: "/${{ env.BRANCH }}/*"
       - name: Results
         id: results
         run: | 
-          URL="https://d1aanl86sh7an9.cloudfront.net/${{ env.BRANCH }}"
+          URL="${{ secrets.AWS_WEBSITE_URL }}/${{ env.BRANCH }}"
           echo "✔	Branch is successfully deploy to: $URL" >> $GITHUB_STEP_SUMMARY
           echo "url=$URL" >> $GITHUB_OUTPUT
