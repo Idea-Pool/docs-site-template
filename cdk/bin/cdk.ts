@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { CdkStack } from '../lib/cdk-stack';
+import { DocsSiteTemplate } from '../lib/cdk-stack';
 
 const app = new cdk.App();
-new CdkStack(app, 'DocsSiteTemplate', {
+new DocsSiteTemplate(app, 'DocsSiteTemplate', {
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+  cliRoleArn: process.env.CLI_ROLE_ARN!,
 });

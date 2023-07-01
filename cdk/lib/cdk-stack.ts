@@ -1,15 +1,21 @@
-import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as s3Deployment from 'aws-cdk-lib/aws-s3-deployment';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as cloudfrontOrigin from 'aws-cdk-lib/aws-cloudfront-origins';
 
-export class CdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export interface DocsSiteTemplateProps extends cdk.StackProps {
+  cliRoleArn: string;
+}
+
+export class DocsSiteTemplate extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: DocsSiteTemplateProps) {
     super(scope, id, props);
+
+    if (!props.cliRoleArn) {
+      throw new Error('cliRoleArn MUST BE SET!');
+    }
 
     const bucket = new s3.Bucket(this, 'WebsiteBucket', {
       publicReadAccess: false,
@@ -25,6 +31,15 @@ export class CdkStack extends cdk.Stack {
       resources: [bucket.arnForObjects('*')],
       principals: [new iam.CanonicalUserPrincipal(cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
     }));
+
+    bucket.addToResourcePolicy(new iam.PolicyStatement({
+      actions: ['s3:*'],
+      resources: [
+        bucket.bucketArn,
+        bucket.arnForObjects('*'),
+      ],
+      principals: [new iam.ArnPrincipal(props.cliRoleArn)]
+    }))
 
     const cfFunction = new cloudfront.Function(this, 'Function', {
       code: cloudfront.FunctionCode.fromInline(`function handler(event, context, callback) {
