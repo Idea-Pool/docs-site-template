@@ -29,3 +29,24 @@ jobs:
       - name: Destroying
         working-directory: cdk
         run: npm run destroy -- --force
+      - name: Clean dynamic secrets (BucketName)
+        uses: dacbd/gha-secrets@v1
+        with:
+          token: ${{ secrets.GH_SECRETS_TOKEN }}
+          name: AWS_BUCKET_NAME
+          value: DELETED
+          location: repo
+      - name: Clean dynamic secrets (DistributionId)
+        uses: dacbd/gha-secrets@v1
+        with:
+          token: ${{ secrets.GH_SECRETS_TOKEN }}
+          name: AWS_DISTRIBUTION_ID
+          value: DELETED
+          location: repo
+      - name: Clean dynamic secrets (WebsiteUrl)
+        uses: dacbd/gha-secrets@v1
+        with:
+          token: ${{ secrets.GH_SECRETS_TOKEN }}
+          name: AWS_WEBSITE_URL
+          value: DELETED
+          location: repo
