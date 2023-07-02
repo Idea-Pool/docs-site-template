@@ -65,11 +65,17 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy
         run: |
+          echo "CHECKING PROFILES"
           aws configure list-profiles
+          echo "CHECKING STS"
           aws sts get-caller-identity
+          echo "CHECKING BUCKETS"
           aws s3 ls
+          echo "CHECKING WEBSITE BUCKET"
           aws s3 ls s3://${{ secrets.AWS_BUCKET_NAME }}
+          echo "SYNCING SITE"
           aws s3 sync ./_site s3://${{ secrets.AWS_BUCKET_NAME }}/${{ env.BRANCH }} --no-progress --follow-symlinks --delete
+          echo "DONE"
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
