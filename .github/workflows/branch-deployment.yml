@@ -64,6 +64,8 @@ jobs:
           role-session-name: docs-site-template-branch-deploy
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           echo "CHECKING PROFILES"
           aws configure list-profiles
