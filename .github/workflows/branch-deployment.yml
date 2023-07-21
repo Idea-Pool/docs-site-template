@@ -67,6 +67,8 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
+          echo "SECRET"
+          echo "${{ secrets.AWS_BUCKET_NAME }}" | base64
           echo "CHECKING PROFILES"
           aws configure list-profiles
           echo "CHECKING STS"
