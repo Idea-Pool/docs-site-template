@@ -42,9 +42,10 @@ jobs:
           echo '```json' >> $GITHUB_STEP_SUMMARY
           echo "$CDK_OUTPUT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "BucketName=$(echo $CDK_OUTPUT | grep BucketName | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
-          echo "DistributionId=$(echo $CDK_OUTPUT | grep DistributionId | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
-          echo "WebsiteUrl=$(echo $CDK_OUTPUT | grep WebsiteUrl | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
+          echo "BucketName=$(echo $CDK_OUTPUT | jq -r '.DocsSiteTemplate.BucketName')" >> $GITHUB_OUTPUT
+          echo "DistributionId=$(echo $CDK_OUTPUT | jq -r '.DocsSiteTemplate.DistributionId')" >> $GITHUB_OUTPUT
+          echo "WebsiteUrl=$(echo $CDK_OUTPUT | jq -r '.DocsSiteTemplate.WebsiteUrl')" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
       - name: Deploy dynamic secrets (BucketName)
         uses: dacbd/gha-secrets@v1
         with:
