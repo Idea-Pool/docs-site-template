@@ -28,11 +28,11 @@ export class DocsSiteTemplate extends cdk.Stack {
       code: cloudfront.FunctionCode.fromInline(`function handler(event, context, callback) {
     var request = event.request;
     var olduri = request.uri;
-    if (!/\.[^\.]+$/.test(request.uri)) {
-        if (!/\/$/.test(request.uri)) {
+    if (!/\\.[^\\.]+$/.test(request.uri)) {
+        if (!/\\/$/.test(request.uri)) {
             olduri = olduri + '/';
         }
-        var newuri = olduri.replace(/\/$/, '\/index.html');
+        var newuri = olduri.replace(/\\/$/, '\\/index.html');
         console.log("Old URI: " + olduri);
         console.log("New URI: " + newuri);
         request.uri = newuri;
