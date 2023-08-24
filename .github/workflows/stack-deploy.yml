@@ -46,27 +46,11 @@ jobs:
           echo "DistributionId=$(echo $CDK_OUTPUT | jq -r '.DocsSiteTemplate.DistributionId')" >> $GITHUB_OUTPUT
           echo "WebsiteUrl=$(echo $CDK_OUTPUT | jq -r '.DocsSiteTemplate.WebsiteUrl')" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
-      - name: Deploy dynamic secrets (BucketName)
-        uses: dacbd/gha-secrets@v1
-        with:
-          token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: AWS_BUCKET_NAME
-          value: ${{ steps.cdk_output.outputs.BucketName }}
-          location: repo
-      - name: Deploy dynamic secrets (DistributionId)
-        uses: dacbd/gha-secrets@v1
-        with:
-          token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: AWS_DISTRIBUTION_ID
-          value: ${{ steps.cdk_output.outputs.DistributionId }}
-          location: repo
-      - name: Deploy dynamic secrets (WebsiteUrl)
-        uses: dacbd/gha-secrets@v1
-        with:
-          token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: AWS_WEBSITE_URL
-          value: ${{ steps.cdk_output.outputs.WebsiteUrl }}
-          location: repo
+      - name: Deploy dynamic variables
+        run: |
+          gh variable set AWS_BUCKET_NAME --body "${{ steps.cdk_output.outputs.BucketName }}" --env aws-development
+          gh variable set AWS_DISTRIBUTION_ID --body "${{ steps.cdk_output.outputs.DistributionId }}" --env aws-development
+          gh variable set AWS_WEBSITE_URL --body "${{ steps.cdk_output.outputs.WebsiteUrl }}" --env aws-development
       - name: Archive stack artifact
         uses: actions/upload-artifact@v3
         with:
