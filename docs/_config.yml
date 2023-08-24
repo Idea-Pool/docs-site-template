@@ -3,14 +3,14 @@ remote_theme: just-the-docs/just-the-docs
 color_scheme: dark
 
 # this is the main title visible in the left side bar and in the browser title
-title: AWS Testing
+title: Docs Site Template
 # this is the description from the meta tags
 description: This is a guide on testing AWS services and in general about testing in AWS Cloud.
 # the base URL/domain
-url: https://aws-testing.ideapool.community
+url: https://docs-site-template.ideapool.community
 
 content:
-  samples: https://github.com/Idea-Pool/aws-testing/tree/main/samples
+  samples: https://github.com/Idea-Pool/docs-site-template/tree/main/samples
 
 permalink: pretty
 
@@ -66,8 +66,8 @@ callouts:
 back_to_top: true
 back_to_top_text: Back to top
 
-footer_content: Copyright &copy; 2022- Idea Pool Community.
-  Distributed by an <a href="https://github.com/idea-pool/aws-testing/tree/main/LICENSE" target="_blank">MIT license.</a>
+footer_content: Copyright &copy; 2023- Idea Pool Community.
+  Distributed by an <a href="https://github.com/idea-pool/docs-site-template/tree/main/LICENSE" target="_blank">MIT license.</a>
   Idea Pool <a href="https://github.com/idea-pool" target="_blank">@GitHub</a>,
   <a href="http://ideapool.community" target="_blank">@WeAreCommunity</a>.
   <br>This site is <strong>under development</strong>.
@@ -93,14 +93,14 @@ mermaid:
 heading_anchors: true
 
 aux_links:
-  AWS Testing on GitHub:
-    - https://github.com/Idea-Pool/aws-testing
+  Docs Site Template- on GitHub:
+    - https://github.com/Idea-Pool/docs-site-template
 
 aux_links_new_tab: true
 
 nav_external_links:
   - title: Contribution Guideline
-    url: https://github.com/Idea-Pool/aws-testing/blob/main/CONTRIBUTING.md
+    url: https://github.com/Idea-Pool/docs-site-template/blob/main/CONTRIBUTING.md
 #   - title: Idea Pool@GitHub
 #     url: https://github.com/idea-pool
 #   - title: Idea Pool@WeAreCommunity
@@ -108,7 +108,7 @@ nav_external_links:
 
 gh_edit_link: true
 gh_edit_link_text: Help us improve this page with your contribution
-gh_edit_repository: https://github.com/Idea-Pool/aws-testing
+gh_edit_repository: https://github.com/Idea-Pool/docs-site-template
 gh_edit_branch: main
 gh_edit_source: docs
 gh_edit_view_mode: tree
