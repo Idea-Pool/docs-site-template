@@ -28,12 +28,12 @@ jobs:
         with:
           args: --recursive
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
+          AWS_S3_BUCKET: ${{ env.AWS_BUCKET_NAME }}
           PATH_TO_DELETE: ${{ steps.extract_branch.outputs.branch }}
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{ secrets.AWS_DISTRIBUTION_ID }}
+          DISTRIBUTION: ${{ env.AWS_DISTRIBUTION_ID }}
           PATHS: "/${{ steps.extract_branch.outputs.branch }}/*"
       - uses: strumwolf/delete-deployment-environment@v2
         with:
