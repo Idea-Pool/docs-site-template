@@ -22,31 +22,17 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.0.0
         with:
-          node-version: 16
+          node-version: lts
       - name: Installing dependencies
         working-directory: cdk
         run: npm install
       - name: Destroying
         working-directory: cdk
         run: npm run destroy -- --force
-      - name: Clean dynamic secrets (BucketName)
-        uses: dacbd/gha-secrets@v1
-        with:
-          token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: AWS_BUCKET_NAME
-          value: DELETED
-          location: repo
-      - name: Clean dynamic secrets (DistributionId)
-        uses: dacbd/gha-secrets@v1
-        with:
-          token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: AWS_DISTRIBUTION_ID
-          value: DELETED
-          location: repo
-      - name: Clean dynamic secrets (WebsiteUrl)
-        uses: dacbd/gha-secrets@v1
-        with:
-          token: ${{ secrets.GH_SECRETS_TOKEN }}
-          name: AWS_WEBSITE_URL
-          value: DELETED
-          location: repo
+      - name: Clean dynamic variables
+        env:
+          GH_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
+        run: |
+          gh variable delete AWS_BUCKET_NAME --env aws-development
+          gh variable delete AWS_DISTRIBUTION_ID --env aws-development
+          gh variable delete AWS_WEBSITE_URL --env aws-development
