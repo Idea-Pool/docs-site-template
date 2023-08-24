@@ -67,15 +67,15 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws s3 sync ./_site s3://${{ env.AWS_BUCKET_NAME }}/${{ env.BRANCH }} --no-progress --follow-symlinks --delete
+          aws s3 sync ./_site s3://${{ vars.AWS_BUCKET_NAME }}/${{ env.BRANCH }} --no-progress --follow-symlinks --delete
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{ env.AWS_DISTRIBUTION_ID }}
+          DISTRIBUTION: ${{ vars.AWS_DISTRIBUTION_ID }}
           PATHS: "/${{ env.BRANCH }}/*"
       - name: Results
         id: results
         run: | 
-          URL="${{ env.AWS_WEBSITE_URL }}/${{ env.BRANCH }}"
+          URL="${{ vars.AWS_WEBSITE_URL }}/${{ env.BRANCH }}"
           echo "✔	Branch is successfully deploy to: $URL" >> $GITHUB_STEP_SUMMARY
           echo "url=$URL" >> $GITHUB_OUTPUT
