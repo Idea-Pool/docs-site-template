@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.0.0
         with:
-          node-version: lts
+          node-version: lts/*
       - name: Installing dependencies
         working-directory: cdk
         run: npm install
