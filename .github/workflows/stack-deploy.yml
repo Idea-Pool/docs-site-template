@@ -47,6 +47,8 @@ jobs:
           echo "WebsiteUrl=$(echo $CDK_OUTPUT | jq -r '.DocsSiteTemplate.WebsiteUrl')" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
       - name: Deploy dynamic variables
+        env:
+          GH_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
         run: |
           gh variable set AWS_BUCKET_NAME --body "${{ steps.cdk_output.outputs.BucketName }}" --env aws-development
           gh variable set AWS_DISTRIBUTION_ID --body "${{ steps.cdk_output.outputs.DistributionId }}" --env aws-development
